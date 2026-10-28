@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${version}"
+displayName = "${mod_name}"
+description = '''
+WorldEdit 的附属扩展。
+粘贴时按玩家当前朝向自动旋转建筑，不用手动 //rotate。
+主指令：/wp（别名 /wepaste）
+'''
+authors = "${mod_authors}"
+
+[[dependencies.${mod_id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.2.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.2,26.3)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "worldedit"
+type = "required"
+versionRange = "[7.4,)"
+ordering = "NONE"
+side = "BOTH"

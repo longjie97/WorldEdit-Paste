@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+group = 'com.longjie.wepaste'
+version = '0.3.1'
+
+base {
+    archivesName = 'worldedit-paste'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+neoForge {
+    version = '26.2.0.93'
+
+    runs {
+        client {
+            client()
+        }
+    }
+
+    mods {
+        worldeditpaste {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+// WorldEdit 的 jar 路径：默认读 gradle.properties 里的 worldeditJar，
+// 也可以用 -PworldeditJar=... 临时覆盖。发布给别人的工程不要把本机绝对路径写死。
+def worldEditJar = file(project.findProperty('worldeditJar') ?: "libs/worldedit-mod-7.4.5.jar")
+if (!worldEditJar.exists()) {
+    throw new GradleException("找不到 WorldEdit jar：${worldEditJar}\n" +
+            "请在 gradle.properties 里设置 worldeditJar，或把它放进 libs/ 目录。")
+}
+
+dependencies {
+    compileOnly files(worldEditJar)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+// 让 neoforge.mods.toml 里的 ${version} 等占位符自动取自 build.gradle，
+// 避免以后改版本号时两处不同步。
+tasks.named('processResources', ProcessResources).configure {
+    def props = [
+            mod_id     : 'worldeditpaste',
+            mod_name   : 'WorldEdit->Paste',
+            version    : project.version,
+            mod_authors: '龙杰'
+    ]
+    inputs.properties(props)
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand props
+    }
+}

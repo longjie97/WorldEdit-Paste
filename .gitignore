@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# 日志
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# 本地依赖：WorldEdit 的 jar 不入库（见 libs/README.md）
+libs/*.jar
+
+# 运行目录
+run/
+runs/
+
+# 系统文件
+Thumbs.db
+.DS_Store
